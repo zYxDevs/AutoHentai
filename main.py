@@ -26,7 +26,7 @@ app = Client(
 async def autohentai_parser():
     hentaidb = MongoClient(MONGO_URL)
     hentai = hentaidb["HentaiDb"]["Name"]
-    url = f"https://hanime.metavoid.info/recent"
+    url = "https://hanime.metavoid.info/recent"
     result = requests.get(url)
     result = result.json()
     url = result["reposone"][0]["slug"]
@@ -38,7 +38,7 @@ async def autohentai_parser():
         k = requests.get(l)
         data = k.json()
         k = data["data"][0]["url"]
-        if not k == "":
+        if k != "":
             url1 = data["data"][0]["url"]
             url2 = data["data"][1]["url"]
             url3 = data["data"][2]["url"]
@@ -48,15 +48,21 @@ async def autohentai_parser():
             gay = requests.get(img)
             open('themb.jpg', 'wb').write(gay.content)
             image = 'themb.jpg'
-            subprocess.run("ffmpeg -i {} -acodec copy -vcodec copy {}".format(
-                url1, file1),
-                           shell=True)
-            subprocess.run("ffmpeg -i {} -acodec copy -vcodec copy {}".format(
-                url2, file2),
-                           shell=True)
-            subprocess.run("ffmpeg -i {} -acodec copy -vcodec copy {}".format(
-                url3, file3),
-                           shell=True)
+            subprocess.run(
+                f"ffmpeg -i {url1} -acodec copy -vcodec copy {file1}",
+                shell=True,
+            )
+
+            subprocess.run(
+                f"ffmpeg -i {url2} -acodec copy -vcodec copy {file2}",
+                shell=True,
+            )
+
+            subprocess.run(
+                f"ffmpeg -i {url3} -acodec copy -vcodec copy {file3}",
+                shell=True,
+            )
+
             hentai.insert_one({"url": url})
             await app.send_video(CHANNEL_ID,
                                  file1,
@@ -84,15 +90,21 @@ async def autohentai_parser():
             gay = requests.get(img)
             open('themb.jpg', 'wb').write(gay.content)
             image = 'themb.jpg'
-            subprocess.run("ffmpeg -i {} -acodec copy -vcodec copy {}".format(
-                url1, file1),
-                           shell=True)
-            subprocess.run("ffmpeg -i {} -acodec copy -vcodec copy {}".format(
-                url2, file2),
-                           shell=True)
-            subprocess.run("ffmpeg -i {} -acodec copy -vcodec copy {}".format(
-                url3, file3),
-                           shell=True)
+            subprocess.run(
+                f"ffmpeg -i {url1} -acodec copy -vcodec copy {file1}",
+                shell=True,
+            )
+
+            subprocess.run(
+                f"ffmpeg -i {url2} -acodec copy -vcodec copy {file2}",
+                shell=True,
+            )
+
+            subprocess.run(
+                f"ffmpeg -i {url3} -acodec copy -vcodec copy {file3}",
+                shell=True,
+            )
+
             hentai.insert_one({"url": url})
             await app.send_video(CHANNEL_ID,
                                  file1,
